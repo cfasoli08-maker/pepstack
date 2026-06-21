@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dena's Personal Peptide Stack</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --blush: #E8B4B8;
+    --rose: #C97B84;
+    --deep-rose: #9B4F5A;
+    --mauve: #7B3D5E;
+    --cream: #FDF6F0;
+    --warm-white: #FAF0EA;
+    --soft-grey: #F0E8E4;
+    --text-dark: #2C1810;
+    --text-mid: #6B4C4C;
+    --text-light: #9B7B7B;
+    --card-bg: #FFFFFF;
+    --border: #E8D8D4;
+    --success: #7BAF8E;
+    --gold: #C4A882;
+    --warning: #D4956A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--mauve) 0%, var(--deep-rose) 50%, var(--rose) 100%);
+    padding: 24px 20px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(155, 79, 90, 0.3);
+  }
+
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: #FFF;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .header-title span { font-style: italic; font-weight: 600; }
+
+  .header-subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .cycle-banner {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.5px;
+  }
+
+  .nav {
+    background: var(--card-bg);
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 98px;
+    z-index: 99;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex: 1;
+    min-width: 70px;
+    padding: 13px 6px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .nav-tab.active { color: var(--deep-rose); border-bottom-color: var(--deep-rose); }
+  .nav-tab:hover { color: var(--rose); }
+
+  .section { display: none; padding: 20px 16px 100px; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--mauve);
+    margin-bottom: 4px;
+  }
+
+  .section-subtitle {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* STACK CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(155, 79, 90, 0.06);
+    transition: transform 0.15s;
+  }
+
+  .card:active { transform: scale(0.99); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .peptide-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--mauve);
+  }
+
+  .peptide-badge {
+    background: linear-gradient(135deg, var(--blush), var(--rose));
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .dose-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .dose-chip {
+    background: var(--soft-grey);
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-size: 12px;
+    color: var(--text-mid);
+  }
+
+  .dose-chip strong { color: var(--deep-rose); font-weight: 600; }
+
+  .peptide-note {
+    font-size: 12px;
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.5;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .fav-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #C4A882, #E8B4B8);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  /* SUPPLY TRACKER */
+  .supply-row {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .supply-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .supply-label span:last-child { font-weight: 600; color: var(--text-mid); }
+
+  .supply-bar-bg {
+    background: var(--soft-grey);
+    border-radius: 10px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  .supply-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--rose), var(--blush));
+    transition: width 0.5s ease;
+  }
+
+  .supply-bar-fill.low { background: linear-gradient(90deg, var(--warning), #E8B490); }
+
+  .supply-warning {
+    font-size: 11px;
+    color: var(--warning);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* LOG SECTION */
+  .streak-bar {
+    background: linear-gradient(135deg, var(--blush), var(--rose));
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .streak-label { font-size: 12px; color: white; opacity: 0.85; }
+  .streak-value { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: white; font-weight: 600; }
+  .streak-unit { font-size: 11px; color: rgba(255,255,255,0.75); }
+
+  .log-date-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin: 16px 0 10px;
+  }
+
+  .log-entry {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .log-entry-left .log-peptide { font-weight: 600; font-size: 14px; color: var(--text-dark); }
+  .log-entry-left .log-detail { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .log-entry-right { font-size: 12px; color: var(--text-light); text-align: right; }
+
+  .log-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .log-form {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .log-form h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--mauve);
+    margin-bottom: 16px;
+  }
+
+  .form-row { margin-bottom: 14px; }
+
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .form-select, .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--warm-white);
+    appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-select:focus, .form-input:focus { border-color: var(--rose); }
+
+  .form-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .btn-log {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--mauve), var(--deep-rose));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+
+  .btn-log:hover { opacity: 0.9; }
+  .btn-log:active { transform: scale(0.98); }
+
+  /* LIBRARY */
+  .library-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+
+  .library-card-header {
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .library-card-header:hover { background: var(--warm-white); }
+
+  .library-peptide-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mauve);
+  }
+
+  .library-tag { font-size: 10px; color: var(--text-light); margin-top: 2px; letter-spacing: 0.5px; }
+
+  .expand-icon {
+    font-size: 18px;
+    color: var(--rose);
+    transition: transform 0.25s ease;
+  }
+
+  .expand-icon.open { transform: rotate(180deg); }
+
+  .library-card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    border-top: 0px solid var(--border);
+  }
+
+  .library-card-body.open {
+    max-height: 600px;
+    border-top: 1px solid var(--border);
+  }
+
+  .library-card-body-inner { padding: 16px 20px 20px; }
+
+  .info-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 12px;
+  }
+
+  .info-pill {
+    background: var(--soft-grey);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--text-mid);
+  }
+
+  .info-pill strong { color: var(--deep-rose); }
+
+  .info-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin: 14px 0 6px;
+  }
+
+  .info-text {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  /* CALCULATOR */
+  .calc-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .calc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--mauve);
+    margin-bottom: 6px;
+  }
+
+  .calc-subtitle { font-size: 12px; color: var(--text-light); margin-bottom: 20px; }
+
+  .calc-result {
+    background: linear-gradient(135deg, var(--mauve), var(--deep-rose));
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .calc-result-label { font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 1px; text-transform: uppercase; }
+  .calc-result-value { font-size: 42px; font-weight: 300; color: white; margin: 6px 0 2px; font-family: 'Cormorant Garamond', serif; }
+  .calc-result-unit { font-size: 13px; color: rgba(255,255,255,0.8); }
+
+  .calc-breakdown {
+    background: var(--soft-grey);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 12px;
+  }
+
+  .calc-breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-mid);
+    padding: 4px 0;
+  }
+
+  .calc-breakdown-row strong { color: var(--text-dark); }
+
+  /* GOALS TAB */
+  .goals-intro {
+    background: linear-gradient(135deg, var(--mauve), var(--deep-rose));
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  .goals-intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+
+  .goals-intro-sub { font-size: 12px; opacity: 0.8; line-height: 1.5; }
+
+  .goal-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .goal-card.active {
+    border-color: var(--rose);
+    background: #FFF5F6;
+    box-shadow: 0 2px 16px rgba(155, 79, 90, 0.12);
+  }
+
+  .goal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .goal-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-dark);
+  }
+
+  .goal-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .goal-card.active .goal-check {
+    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    border-color: var(--deep-rose);
+    color: white;
+  }
+
+  .goal-desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+
+  .goal-peptides {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+
+  .goal-card.active .goal-peptides { display: block; }
+
+  .goal-peptides-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  .goal-peptide-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .goal-peptide-tag {
+    background: linear-gradient(135deg, var(--blush), var(--rose));
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--mauve);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(123, 61, 94, 0.4);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 400px) {
+    .form-row-split { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">Dena's <span>Personal Peptide Stack</span></div>
+  <div class="header-subtitle">Your Protocol &bull; Your Results</div>
+  <div class="cycle-banner">⚡ Week 3 of Active Cycle &bull; 12 Day Streak</div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active" onclick="showTab('stack', this)">My Stack</div>
+  <div class="nav-tab" onclick="showTab('log', this)">Dose Log</div>
+  <div class="nav-tab" onclick="showTab('library', this)">Library</div>
+  <div class="nav-tab" onclick="showTab('calc', this)">Calculator</div>
+  <div class="nav-tab" onclick="showTab('goals', this)">Goals</div>
+</div>
+
+<!-- MY STACK -->
+<div id="stack" class="section active">
+  <div class="section-title">My Stack</div>
+  <div class="section-subtitle">Current protocol &bull; Updated June 2026</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="peptide-name">Retatrutide</div>
+      <div class="peptide-badge">GIP / GLP-1</div>
+    </div>
+    <div class="dose-row">
+      <div class="dose-chip"><strong>30 units</strong> per dose</div>
+      <div class="dose-chip"><strong>U100</strong> syringe</div>
+      <div class="dose-chip">SubQ</div>
+    </div>
+    <div class="peptide-note">Triple agonist. Most potent compound in the stack. Titrate every 4-5 weeks. Store refrigerated.</div>
+    <div class="supply-row">
+      <div class="supply-label"><span>Supply remaining</span><span>18 days</span></div>
+      <div class="supply-bar-bg"><div class="supply-bar-fill" style="width:60%"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="peptide-name">MOTS-c</div>
+      <div class="peptide-badge">Mitochondrial</div>
+    </div>
+    <div class="dose-row">
+      <div class="dose-chip"><strong>10–15 units</strong> per dose</div>
+      <div class="dose-chip"><strong>3x / week</strong></div>
+      <div class="dose-chip">SubQ</div>
+    </div>
+    <div class="peptide-note">Exercise mimetic. Best administered before physical activity. Refrigerate after reconstitution.</div>
+    <div class="supply-row">
+      <div class="supply-label"><span>Supply remaining</span><span>8 days</span></div>
+      <div class="supply-bar-bg"><div class="supply-bar-fill low" style="width:27%"></div></div>
+      <div class="supply-warning">⚠ Running low — reorder soon</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="peptide-name">GHK-Cu</div>
+      <div class="peptide-badge">Copper Peptide</div>
+    </div>
+    <div class="dose-row">
+      <div class="dose-chip"><strong>10 units</strong> per dose</div>
+      <div class="dose-chip"><strong>Daily</strong> &bull; 7x / week</div>
+      <div class="dose-chip">SubQ</div>
+    </div>
+    <div class="peptide-note">Collagen synthesis, tissue repair, skin regeneration. Light sensitive — amber vial preferred.</div>
+    <div class="supply-row">
+      <div class="supply-label"><span>Supply remaining</span><span>22 days</span></div>
+      <div class="supply-bar-bg"><div class="supply-bar-fill" style="width:73%"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="fav-badge">★ Personal Favourite</div>
+        <div class="peptide-name">NAD+</div>
+      </div>
+      <div class="peptide-badge">Cellular Energy</div>
+    </div>
+    <div class="dose-row">
+      <div class="dose-chip"><strong>50 units</strong> per dose</div>
+      <div class="dose-chip"><strong>3x / week</strong></div>
+      <div class="dose-chip">SubQ</div>
+    </div>
+    <div class="peptide-note">Cellular energy and cognitive focus. Short cycles. Energy onset is fast and unmistakable.</div>
+    <div class="supply-row">
+      <div class="supply-label"><span>Supply remaining</span><span>14 days</span></div>
+      <div class="supply-bar-bg"><div class="supply-bar-fill" style="width:47%"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="peptide-name">BPC-157</div>
+      <div class="peptide-badge">Healing / Gut</div>
+    </div>
+    <div class="dose-row">
+      <div class="dose-chip"><strong>10 units</strong> per dose</div>
+      <div class="dose-chip">Site-specific or oral</div>
+    </div>
+    <div class="peptide-note">Injury: 10 units AM + PM at site. Gut health: 10 units once daily. Do not mix protocols.</div>
+    <div class="supply-row">
+      <div class="supply-label"><span>Supply remaining</span><span>5 days</span></div>
+      <div class="supply-bar-bg"><div class="supply-bar-fill low" style="width:17%"></div></div>
+      <div class="supply-warning">⚠ Running low — reorder soon</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOSE LOG -->
+<div id="log" class="section">
+  <div class="section-title">Dose Log</div>
+  <div class="section-subtitle">Track every injection</div>
+
+  <div class="streak-bar">
+    <div>
+      <div class="streak-label">Current Streak</div>
+      <div class="streak-value">12</div>
+      <div class="streak-unit">days logged</div>
+    </div>
+    <div style="text-align:right">
+      <div class="streak-label">This week</div>
+      <div class="streak-value" style="font-size:24px">7</div>
+      <div class="streak-unit">doses logged</div>
+    </div>
+  </div>
+
+  <div class="log-form">
+    <h3>Log a Dose</h3>
+    <div class="form-row">
+      <label class="form-label">Peptide</label>
+      <select class="form-select" id="log-peptide">
+        <option value="">Select peptide...</option>
+        <option>Retatrutide</option>
+        <option>MOTS-c</option>
+        <option>GHK-Cu</option>
+        <option>NAD+</option>
+        <option>BPC-157 (Injury Site)</option>
+        <option>BPC-157 (Gut Health)</option>
+      </select>
+    </div>
+    <div class="form-row-split">
+      <div>
+        <label class="form-label">Units (U100)</label>
+        <input class="form-input" type="number" id="log-units" placeholder="e.g. 10">
+      </div>
+      <div>
+        <label class="form-label">Time</label>
+        <input class="form-input" type="time" id="log-time">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Injection Site</label>
+      <select class="form-select" id="log-site">
+        <option value="">Select site...</option>
+        <option>Abdomen left</option>
+        <option>Abdomen right</option>
+        <option>Thigh left</option>
+        <option>Thigh right</option>
+        <option>Near injury site</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <input class="form-input" type="text" id="log-notes" placeholder="How do you feel? Any observations...">
+    </div>
+    <button class="btn-log" onclick="logDose()">Log Dose</button>
+  </div>
+
+  <div id="log-entries">
+    <div class="log-date-header">Today, June 19</div>
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>NAD+</div>
+        <div class="log-detail">50 units &bull; Abdomen left</div>
+      </div>
+      <div class="log-entry-right">7:42 AM<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    </div>
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>GHK-Cu</div>
+        <div class="log-detail">10 units &bull; Abdomen right</div>
+      </div>
+      <div class="log-entry-right">7:45 AM<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    </div>
+    <div class="log-date-header">Yesterday, June 18</div>
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>MOTS-c</div>
+        <div class="log-detail">12 units &bull; Thigh left</div>
+      </div>
+      <div class="log-entry-right">8:10 AM<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    </div>
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>BPC-157</div>
+        <div class="log-detail">10 units &bull; Near injury site</div>
+      </div>
+      <div class="log-entry-right">8:15 AM<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    </div>
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>BPC-157</div>
+        <div class="log-detail">10 units &bull; Near injury site</div>
+      </div>
+      <div class="log-entry-right">9:00 PM<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<div id="library" class="section">
+  <div class="section-title">Peptide Library</div>
+  <div class="section-subtitle">Tap any compound to expand</div>
+
+  <div class="library-card">
+    <div class="library-card-header" onclick="toggleLibrary(this)">
+      <div>
+        <div class="library-peptide-name">Retatrutide</div>
+        <div class="library-tag">GIP / GLP-1 / Glucagon Triple Agonist</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="library-card-body">
+      <div class="library-card-body-inner">
+        <div class="info-row">
+          <div class="info-pill"><strong>Half-life:</strong> ~6 days</div>
+          <div class="info-pill"><strong>Route:</strong> SubQ</div>
+          <div class="info-pill"><strong>Storage:</strong> Refrigerate</div>
+        </div>
+        <div class="info-section-title">Mechanism</div>
+        <div class="info-text">Triple receptor agonist acting on GIP, GLP-1, and glucagon receptors simultaneously. Significantly more potent than dual agonists for metabolic and body composition outcomes.</div>
+        <div class="info-section-title">Primary Uses</div>
+        <div class="info-text">Body composition, metabolic health, appetite regulation, insulin sensitivity. One of the most powerful compounds available for fat loss and metabolic optimization.</div>
+        <div class="info-section-title">Synergies</div>
+        <div class="info-text">Stacks well with MOTS-c for metabolic enhancement. NAD+ supports cellular energy demands during active recomposition.</div>
+        <div class="info-section-title">Protocol Notes</div>
+        <div class="info-text">Titrate slowly. Nausea is common at higher doses early on. Typical titration: 2mg increments every 4-5 weeks. Do not escalate if side effects are present.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="library-card">
+    <div class="library-card-header" onclick="toggleLibrary(this)">
+      <div>
+        <div class="library-peptide-name">MOTS-c</div>
+        <div class="library-tag">Mitochondrial-Derived Peptide</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="library-card-body">
+      <div class="library-card-body-inner">
+        <div class="info-row">
+          <div class="info-pill"><strong>Half-life:</strong> ~3-6 hrs</div>
+          <div class="info-pill"><strong>Route:</strong> SubQ or IV</div>
+          <div class="info-pill"><strong>Storage:</strong> Freeze lyophilized</div>
+        </div>
+        <div class="info-section-title">Mechanism</div>
+        <div class="info-text">Encoded in mitochondrial DNA. Regulates metabolic homeostasis, activates AMPK pathway, and mimics the cellular effects of exercise.</div>
+        <div class="info-section-title">Primary Uses</div>
+        <div class="info-text">Metabolic health, insulin sensitivity, exercise performance, anti-aging, weight regulation. Often called a natural exercise mimetic.</div>
+        <div class="info-section-title">Synergies</div>
+        <div class="info-text">Powerful with Retatrutide for metabolic optimization. NAD+ complements by supporting the same mitochondrial energy pathways.</div>
+        <div class="info-section-title">Protocol Notes</div>
+        <div class="info-text">Best administered 30-60 minutes before physical activity. Effects are cumulative over weeks. 3x per week is the established frequency.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="library-card">
+    <div class="library-card-header" onclick="toggleLibrary(this)">
+      <div>
+        <div class="library-peptide-name">GHK-Cu</div>
+        <div class="library-tag">Copper Tripeptide</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="library-card-body">
+      <div class="library-card-body-inner">
+        <div class="info-row">
+          <div class="info-pill"><strong>Half-life:</strong> ~1-2 hrs</div>
+          <div class="info-pill"><strong>Route:</strong> SubQ / Topical</div>
+          <div class="info-pill"><strong>Storage:</strong> Refrigerate</div>
+        </div>
+        <div class="info-section-title">Mechanism</div>
+        <div class="info-text">Naturally occurring copper complex that stimulates collagen and elastin production, activates antioxidant enzymes, and promotes tissue remodeling.</div>
+        <div class="info-section-title">Primary Uses</div>
+        <div class="info-text">Skin regeneration, anti-aging, hair growth, tissue repair, wound healing, anti-inflammatory. Exceptionally safe and well-tolerated for daily use.</div>
+        <div class="info-section-title">Synergies</div>
+        <div class="info-text">BPC-157 stacks well for tissue repair. Can be used topically alongside SubQ for localized skin benefits.</div>
+        <div class="info-section-title">Protocol Notes</div>
+        <div class="info-text">One of the safest daily-use peptides. Light sensitive; amber vials preferred. Blue-green tint in solution is normal from copper content.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="library-card">
+    <div class="library-card-header" onclick="toggleLibrary(this)">
+      <div>
+        <div class="fav-badge" style="margin-bottom:4px">★ Your Favourite</div>
+        <div class="library-peptide-name">NAD+</div>
+        <div class="library-tag">Nicotinamide Adenine Dinucleotide</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="library-card-body">
+      <div class="library-card-body-inner">
+        <div class="info-row">
+          <div class="info-pill"><strong>Half-life:</strong> Minutes</div>
+          <div class="info-pill"><strong>Route:</strong> SubQ / IV</div>
+          <div class="info-pill"><strong>Storage:</strong> Freeze lyophilized</div>
+        </div>
+        <div class="info-section-title">Mechanism</div>
+        <div class="info-text">Essential coenzyme in every cell. Drives ATP production, activates sirtuins (longevity proteins), supports DNA repair, and regulates circadian rhythm. Declines significantly with age.</div>
+        <div class="info-section-title">Primary Uses</div>
+        <div class="info-text">Energy, cognitive clarity and focus, anti-aging, metabolic function, cellular repair. SubQ delivery produces fast and noticeable effects especially for mental energy.</div>
+        <div class="info-section-title">Synergies</div>
+        <div class="info-text">Excellent with MOTS-c — both target mitochondrial function. Retatrutide and NAD+ together support comprehensive metabolic optimization.</div>
+        <div class="info-section-title">Protocol Notes</div>
+        <div class="info-text">Short cycles prevent downregulation. 3x per week is the effective maintenance frequency. Some experience a mild flush after injection — normal response.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="library-card">
+    <div class="library-card-header" onclick="toggleLibrary(this)">
+      <div>
+        <div class="library-peptide-name">BPC-157</div>
+        <div class="library-tag">Body Protection Compound</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="library-card-body">
+      <div class="library-card-body-inner">
+        <div class="info-row">
+          <div class="info-pill"><strong>Half-life:</strong> ~4 hrs</div>
+          <div class="info-pill"><strong>Route:</strong> SubQ / Oral</div>
+          <div class="info-pill"><strong>Storage:</strong> Freeze lyophilized</div>
+        </div>
+        <div class="info-section-title">Mechanism</div>
+        <div class="info-text">Synthetic pentadecapeptide derived from a protective protein in gastric juice. Promotes angiogenesis, accelerates tissue healing, modulates nitric oxide pathways.</div>
+        <div class="info-section-title">Primary Uses</div>
+        <div class="info-text">Injury recovery (tendon, ligament, muscle, bone), gut and GI tract healing, inflammation reduction. One of the most versatile healing compounds available.</div>
+        <div class="info-section-title">Protocols</div>
+        <div class="info-text">Injury: 10 units twice daily at or near the injured site. Gut health: 10 units once daily SubQ. Never run both simultaneously.</div>
+        <div class="info-section-title">Synergies</div>
+        <div class="info-text">TB-500 is the classic partner for accelerated healing. GHK-Cu complements for tissue repair and collagen regeneration.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div id="calc" class="section">
+  <div class="section-title">Calculator</div>
+  <div class="section-subtitle">BAC water reconstitution &bull; U100 converter</div>
+
+  <div class="calc-card">
+    <div class="calc-title">Reconstitution</div>
+    <div class="calc-subtitle">Select your peptide or enter manually</div>
+
+    <div class="form-row">
+      <label class="form-label">Quick Select</label>
+      <select class="form-select" id="calc-quick" onchange="quickFill()">
+        <option value="">Choose from my stack...</option>
+        <option value="30|2|0.3">Retatrutide (30mg vial, 2ml BAC)</option>
+        <option value="10|2|0.1">MOTS-c (10mg vial, 2ml BAC)</option>
+        <option value="50|2|0.5">GHK-Cu (50mg vial, 2ml BAC)</option>
+        <option value="100|2|0.5">NAD+ (100mg vial, 2ml BAC)</option>
+        <option value="5|2|0.05">BPC-157 (5mg vial, 2ml BAC)</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Vial Amount (mg)</label>
+      <input class="form-input" type="number" id="vial-mg" placeholder="e.g. 5" oninput="calculate()">
+    </div>
+    <div class="form-row">
+      <label class="form-label">BAC Water Added (ml)</label>
+      <input class="form-input" type="number" id="bac-ml" placeholder="e.g. 2" oninput="calculate()">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Desired Dose (mg)</label>
+      <input class="form-input" type="number" id="dose-mg" placeholder="e.g. 0.5" oninput="calculate()">
+    </div>
+
+    <div class="calc-result" id="calc-result" style="display:none">
+      <div class="calc-result-label">Draw This Many Units</div>
+      <div class="calc-result-value" id="result-units">--</div>
+      <div class="calc-result-unit">units on U100 insulin syringe</div>
+    </div>
+
+    <div class="calc-breakdown" id="calc-breakdown" style="display:none">
+      <div class="calc-breakdown-row"><span>Concentration</span><strong id="bd-conc">--</strong></div>
+      <div class="calc-breakdown-row"><span>Per unit (U100)</span><strong id="bd-per-unit">--</strong></div>
+      <div class="calc-breakdown-row"><span>Desired dose</span><strong id="bd-dose">--</strong></div>
+      <div class="calc-breakdown-row"><span>Units to draw</span><strong id="bd-units">--</strong></div>
+    </div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-title">Quick Reference</div>
+    <div class="calc-subtitle">Dena's stack at current doses</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border)">
+            <th style="text-align:left;padding:8px 4px;color:var(--text-light);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase">Peptide</th>
+            <th style="text-align:center;padding:8px 4px;color:var(--text-light);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase">Units</th>
+            <th style="text-align:center;padding:8px 4px;color:var(--text-light);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase">Freq</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px 4px;color:var(--text-dark);font-weight:500">Retatrutide</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--deep-rose);font-weight:600">30</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--text-mid)">Weekly</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px 4px;color:var(--text-dark);font-weight:500">MOTS-c</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--deep-rose);font-weight:600">10–15</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--text-mid)">3x/wk</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px 4px;color:var(--text-dark);font-weight:500">GHK-Cu</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--deep-rose);font-weight:600">10</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--text-mid)">Daily</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px 4px;color:var(--text-dark);font-weight:500">NAD+ ★</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--deep-rose);font-weight:600">50</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--text-mid)">3x/wk</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 4px;color:var(--text-dark);font-weight:500">BPC-157</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--deep-rose);font-weight:600">10</td>
+            <td style="padding:10px 4px;text-align:center;color:var(--text-mid)">1–2x/day</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- GOALS -->
+<div id="goals" class="section">
+  <div class="goals-intro">
+    <div class="goals-intro-title">What are you optimizing for?</div>
+    <div class="goals-intro-sub">Tap your active goals to see which compounds in your stack are working toward each one.</div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Body Composition</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">Fat loss, muscle preservation, body recomposition, metabolic rate optimization.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">Retatrutide</span>
+        <span class="goal-peptide-tag">MOTS-c</span>
+        <span class="goal-peptide-tag">NAD+</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Anti-Aging & Longevity</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">Cellular repair, collagen production, DNA integrity, sirtuin activation, skin regeneration.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">GHK-Cu</span>
+        <span class="goal-peptide-tag">NAD+</span>
+        <span class="goal-peptide-tag">MOTS-c</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Energy & Cognitive Focus</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">Mental clarity, sustained energy, focus, mitochondrial output, circadian regulation.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">NAD+</span>
+        <span class="goal-peptide-tag">MOTS-c</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Injury Recovery</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">Tendon, ligament, muscle and bone repair. Reducing inflammation. Healing time acceleration.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">BPC-157</span>
+        <span class="goal-peptide-tag">GHK-Cu</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Gut Health</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">GI tract healing, gut lining repair, microbiome support, inflammation reduction in the gut.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">BPC-157</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="goal-card" onclick="toggleGoal(this)">
+    <div class="goal-card-header">
+      <div class="goal-name">Skin & Hair</div>
+      <div class="goal-check">✓</div>
+    </div>
+    <div class="goal-desc">Collagen synthesis, skin elasticity, hair follicle stimulation, wound healing, tissue remodeling.</div>
+    <div class="goal-peptides">
+      <div class="goal-peptides-label">Your stack targeting this goal</div>
+      <div class="goal-peptide-tags">
+        <span class="goal-peptide-tag">GHK-Cu</span>
+        <span class="goal-peptide-tag">BPC-157</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function showTab(tab, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function toggleLibrary(header) {
+    const body = header.nextElementSibling;
+    const icon = header.querySelector('.expand-icon');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.library-card-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.expand-icon').forEach(i => i.classList.remove('open'));
+    if (!isOpen) {
+      body.classList.add('open');
+      icon.classList.add('open');
+    }
+  }
+
+  function toggleGoal(card) {
+    card.classList.toggle('active');
+  }
+
+  function logDose() {
+    const peptide = document.getElementById('log-peptide').value;
+    const units = document.getElementById('log-units').value;
+    const site = document.getElementById('log-site').value;
+    const notes = document.getElementById('log-notes').value;
+    if (!peptide || !units) { showToast('Select a peptide and enter units'); return; }
+
+    const now = new Date();
+    const h = now.getHours();
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const time = (h % 12 || 12) + ':' + m + ' ' + ampm;
+
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `
+      <div class="log-entry-left">
+        <div class="log-peptide"><span class="log-dot"></span>${peptide}</div>
+        <div class="log-detail">${units} units${site ? ' &bull; ' + site : ''}${notes ? ' &bull; ' + notes : ''}</div>
+      </div>
+      <div class="log-entry-right">${time}<br><span style="font-size:11px;color:var(--success)">✓ Logged</span></div>
+    `;
+
+    const container = document.getElementById('log-entries');
+    const firstHeader = container.querySelector('.log-date-header');
+
+    const todayHeader = document.createElement('div');
+    todayHeader.className = 'log-date-header';
+    todayHeader.textContent = 'Just now';
+
+    container.insertBefore(entry, firstHeader);
+
+    showToast('✓ ' + peptide + ' ' + units + 'u logged');
+    document.getElementById('log-peptide').value = '';
+    document.getElementById('log-units').value = '';
+    document.getElementById('log-notes').value = '';
+    document.getElementById('log-site').value = '';
+  }
+
+  function quickFill() {
+    const val = document.getElementById('calc-quick').value;
+    if (!val) return;
+    const parts = val.split('|');
+    document.getElementById('vial-mg').value = parts[0];
+    document.getElementById('bac-ml').value = parts[1];
+    document.getElementById('dose-mg').value = parts[2];
+    calculate();
+  }
+
+  function calculate() {
+    const vialMg = parseFloat(document.getElementById('vial-mg').value);
+    const bacMl = parseFloat(document.getElementById('bac-ml').value);
+    const doseMg = parseFloat(document.getElementById('dose-mg').value);
+
+    if (!vialMg || !bacMl || !doseMg) {
+      document.getElementById('calc-result').style.display = 'none';
+      document.getElementById('calc-breakdown').style.display = 'none';
+      return;
+    }
+
+    const concMgPerMl = vialMg / bacMl;
+    const mgPerUnit = concMgPerMl / 100;
+    const units = doseMg / mgPerUnit;
+
+    document.getElementById('calc-result').style.display = 'block';
+    document.getElementById('calc-breakdown').style.display = 'block';
+    document.getElementById('result-units').textContent = Math.round(units * 10) / 10;
+    document.getElementById('bd-conc').textContent = concMgPerMl.toFixed(2) + ' mg/ml';
+    document.getElementById('bd-per-unit').textContent = (mgPerUnit * 1000).toFixed(1) + ' mcg';
+    document.getElementById('bd-dose').textContent = doseMg + ' mg';
+    document.getElementById('bd-units').textContent = (Math.round(units * 10) / 10) + ' units';
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  const now = new Date();
+  document.getElementById('log-time').value = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+</script>
+</body>
+</html>
